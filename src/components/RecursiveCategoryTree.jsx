@@ -8,11 +8,11 @@ export default function RecursiveCategoryTree({
 }) {
   if (typeof data !== "object" || Array.isArray(data)) return null;
 
-  const level = path.length;
   const keys = Object.keys(data);
 
   return (
     <div className="space-y-4">
+      {/* 横向展示当前层的所有类目 */}
       <div className="flex overflow-x-auto space-x-2 pb-2">
         {keys.map((key) => {
           const currentPath = [...path, key];
@@ -38,14 +38,13 @@ export default function RecursiveCategoryTree({
         })}
       </div>
 
-      {/* 展开子类目（如果是路径上的） */}
+      {/* 展开子级类目（如果在当前路径中） */}
       {keys.map((key) => {
         const currentPath = [...path, key];
+        const value = data[key];
         const isOnPath =
           activePath.length >= currentPath.length &&
           activePath.slice(0, currentPath.length).join("/") === currentPath.join("/");
-
-        const value = data[key];
 
         if (typeof value === "object" && !Array.isArray(value) && isOnPath) {
           return (
